@@ -1,15 +1,11 @@
 <script lang="ts">
   import { invoke } from "@tauri-apps/api/core";
+  import Fa from "svelte-fa";
+  import { faPlus, faFolder } from "@fortawesome/free-solid-svg-icons";
 
-  let name = $state("");
-  let greetMsg = $state("");
+  import AddLinkDialog from "../lib/AddLinkDialog.svelte";
+
   let customMsg = $state("");
-
-  async function greet(event: Event) {
-    event.preventDefault();
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    greetMsg = await invoke("greet", { name });
-  }
   
   async function my_custom_command(event: Event) {
     event.preventDefault();
@@ -17,21 +13,14 @@
   }
 </script>
 
-<main class="container">
-  <h1>Welcome to Tauri + Svelte</h1>
-
-  <div class="row">
-    <a href="https://tauri.app" target="_blank">
-      <img src="/tauri.svg" class="logo tauri" alt="Tauri Logo" />
-    </a>
-  </div>
-  <p>Click on the Tauri, Vite, and SvelteKit logos to learn more.</p>
-
-  <form class="row" onsubmit={greet}>
-    <input id="greet-input" placeholder="Enter a name..." bind:value={name} />
-    <button type="submit">Greet</button>
-  </form>
-  <p>{greetMsg}</p>
+<aside class="sidebar">
+  <button aria-label="Add link button">
+    <Fa icon={faPlus} />
+  </button>
+</aside>
+<main class="main-content">
+  <h1>Welcome to Sottr</h1>
+  <p>Your downloads will appear here</p>
 </main>
 <footer>
   <form class="row" onsubmit={my_custom_command}>
@@ -57,7 +46,7 @@
   -webkit-text-size-adjust: 100%;
 }
 
-.container {
+.main-content {
   margin: 0;
   padding-top: 10vh;
   display: flex;
@@ -66,15 +55,14 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: 0.75s;
-}
-
-.logo.tauri:hover {
-  filter: drop-shadow(0 0 2em #24c8db);
+.sidebar {
+  width: 64px; /* or 240px if expanded */
+  background-color: #2f2f2f; /* distinct color from main */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 0;
+  border-right: 1px solid #444; /* visual separation */
 }
 
 .row {
@@ -82,21 +70,9 @@
   justify-content: center;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-
-a:hover {
-  color: #535bf2;
-}
-
 h1 {
   text-align: center;
 }
-
-input,
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -121,14 +97,8 @@ button:active {
   border-color: #396cd8;
   background-color: #e8e8e8;
 }
-
-input,
 button {
   outline: none;
-}
-
-#greet-input {
-  margin-right: 5px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -137,11 +107,6 @@ button {
     background-color: #2f2f2f;
   }
 
-  a:hover {
-    color: #24c8db;
-  }
-
-  input,
   button {
     color: #ffffff;
     background-color: #0f0f0f98;

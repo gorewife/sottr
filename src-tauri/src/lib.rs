@@ -7,7 +7,6 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         // Add commands here
         .invoke_handler(tauri::generate_handler![
-            cmd::greet,
             cmd::my_custom_command
         ])
         .run(tauri::generate_context!())
